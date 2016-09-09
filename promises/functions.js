@@ -4,7 +4,7 @@
 function get(url) {
     return new Promise(function(resolve, reject) {
         var req = new XMLHttpRequest();
-        req.open('GET', url);
+        req.open('GET', 'data/' + url);
         // if response
         req.onload = function() {
             if(req.status == 200) {

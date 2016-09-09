@@ -1,0 +1,26 @@
+<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript">
+
+    // We don’t download story.json until getChapter is called, but the next time(s) getChapter is called
+    // we reuse the story promise, so story.json is only fetched once.
+
+    var storyPromise;
+
+    /**
+     * Get a chapter
+     */
+    function getChapter(i) {
+        storyPromise = storyPromise || getJSON('story.json');
+        return storyPromise.then(function(story) {
+            return getJSON(story.chapterUrls[i]);
+        });
+    }
+
+    getChapter(0).then(function(chapter) {
+        console.log(chapter);
+        return getChapter(1);
+    }).then(function(chapter) {
+        console.log(chapter);
+    });
+
+</script>
