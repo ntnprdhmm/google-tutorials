@@ -1,0 +1,14 @@
+<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript">
+
+    // handle only success. The next 'then' is called with the value returned by the previous 'then'
+    // get('story.json').then(function(response) {
+    //     return JSON.parse(response);
+    // }).then(function(response) {
+    //     console.log("success ! ", response);
+    // });
+    // shortcut
+    get('story.json').then(JSON.parse).then(function(response) {
+        console.log("success ! ", response);
+    });
+</script>

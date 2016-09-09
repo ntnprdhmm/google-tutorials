@@ -1,0 +1,12 @@
+<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript">
+    /***/
+    /** https://developers.google.com/web/fundamentals/primers/promises/
+    /***/
+
+    get('story.json').then(function(response) {
+        console.log("Success ! " + response);
+    }, function(err) {
+        console.log("Failure ! " + err);
+    });
+</script>
