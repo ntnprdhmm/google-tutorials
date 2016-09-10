@@ -23,8 +23,49 @@ function get(url) {
 }
 
 /**
- * Call the get method, but parse the JSON response
+ * Make a GET request (sync)
+ */
+function getSync(url) {
+    var startTime = Date.now();
+    var waitTime = 3000;
+
+    var req = new XMLHttpRequest();
+    req.open('GET', 'data/' + url, false);
+    req.send();
+
+    while(waitTime > Date.now() - startTime);
+
+    if(req.status == 200) {
+        return req.response;
+    } else {
+        throw Error(res.statusText || "Request failed");
+    }
+}
+
+/**
+ * Call the get method and parse the JSON response
  */
 function getJSON(url) {
     return get(url).then(JSON.parse);
+}
+
+/**
+ * Same as getJSON but sync
+ */
+function getJSONSync(url) {
+    return JSON.parse(getSync(url));
+}
+
+/**
+ * Append html to body
+ */
+function addHtmlToPage(html) {
+    document.body.innerHTML += html;
+}
+
+/**
+ * Apped text to body
+ */
+function addTextToPage(text) {
+    document.body.innerHTML += '<p>' + text + '</p>';
 }
