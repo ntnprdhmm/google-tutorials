@@ -27,7 +27,7 @@ function get(url) {
  */
 function getSync(url) {
     var startTime = Date.now();
-    var waitTime = 3000;
+    var waitTime = 1000;
 
     var req = new XMLHttpRequest();
     req.open('GET', 'data/' + url, false);

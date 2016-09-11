@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Async</title>
+    </head>
+    <body>
+        <script type="text/javascript" src="functions.js"></script>
+        <script type="text/javascript">
+
+            var sequence = Promise.resolve();
+
+            getJSON('story.json').then(function(story) {
+                addHtmlToPage(story.heading);
+                return story.chapterUrls;
+            }).then(function(chapterUrls) {
+                chapterUrls.forEach(function(chapterUrl) {
+                    sequence = sequence.then(function() {
+                        return getJSON(chapterUrl);
+                    }).then(function(chapter) {
+                        addHtmlToPage(chapter.html);
+                    });
+                });
+            });
+
+        </script>
+    </body>
+</html>
