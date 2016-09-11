@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Display the chapters one by one</title>
+    </head>
+    <body>
+        <script type="text/javascript" src="functions.js"></script>
+        <script type="text/javascript">
+
+            getJSON('story.json').then(function(story) {
+                addHtmlToPage(story.heading);
+                return story.chapterUrls.map(getJSON).reduce(function(sequence, chapterPromise) {
+                    return sequence.then(function() {
+                        return chapterPromise;
+                    }).then(function(chapter) {
+                        addHtmlToPage(chapter.html);
+                    });
+                }, Promise.resolve());
+            }).then(function() {
+                addTextToPage('All done !');
+            }).catch(function(err) {
+                addTextToPage('Argh : ' + err.message);
+            });
+
+        </script>
+    </body>
+</html>
