@@ -133,6 +133,7 @@
                 }
             });
         }
+        app.hasRequestPending = true;
         // Make the XHR to get the data, then update the card
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -142,11 +143,11 @@
                     response.key = key;
                     response.label = label;
                     app.hasRequestPending = false;
+                    console.log('[App] Forecast Updated From Network');
                     app.updateForecastCard(response);
                 }
             }
         };
-        app.hasRequestPending = true;
         request.open('GET', url);
         request.send();
     };
@@ -216,11 +217,11 @@
 
     // service worker has to be at the root
     if('serviceWorker' in navigator) {
-      navigator.serviceWorker
-               .register('service-worker.js')
-               .then(function() {
-                   console.log('Service Worker Registered');
-               });
+        navigator.serviceWorker
+           .register('service-worker.js')
+           .then(function() {
+           console.log('Service Worker Registered');
+       });
     }
 
 
