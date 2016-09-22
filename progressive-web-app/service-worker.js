@@ -1,4 +1,5 @@
 var cacheName = 'myApp-cache';
+var dataCacheName = 'myAppData';
 var local_path = 'progressive-web-app';
 var filesToCache = [
     '',
@@ -49,9 +50,14 @@ self.addEventListener('activate', function(e) {
 // look at our cache
 self.addEventListener('fetch', function(e) {
     console.log('[ServiceWorker] Fetch', e.request.url);
-    e.respondWith(
-        caches.match(e.request).then(function(response) {
-            return response || fetch(e.request);
-        })
-    );
+    var dataUrl = 'https://publicdata-weather.firebaseio.com/';
+    if (e.request.url.indexOf(dataUrl) === 0) {
+        // Put data handler code here
+    } else {
+        e.respondWith(
+            caches.match(e.request).then(function(response) {
+                return response || fetch(e.request);
+            })
+        );
+    }
 });
