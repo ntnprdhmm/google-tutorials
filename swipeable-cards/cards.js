@@ -10,9 +10,11 @@ class Cards {
         this.update = this.update.bind(this);
 
         this.target = null;
+        this.draggingCard = false;
 
         this.startX = 0;
         this.currentX = 0;
+        this.screenX = 0;
 
         this.addEventListener();
 
@@ -38,31 +40,41 @@ class Cards {
         this.startX = evt.pageX || evt.touches[0].pageX;
         this.currentX = this.startX;
 
+        this.draggingCard = true;
+        this.target.style.willChange = 'transform';
+
         evt.preventDefault();
     }
 
     onMove (evt) {
-        if(!this.target)
+        if (!this.target)
             return;
 
         this.currentX = evt.pageX || evt.touches[0].pageX;
     }
 
     onEnd (evt) {
-        if(!this.target)
+        if (!this.target)
             return;
+
+        this.draggingCard = false;
     }
 
     update () {
 
         requestAnimationFrame(this.update);
 
-        if(!this.target)
+        if (!this.target)
             return;
 
-        const screenX = this.currentX - this.startX;
+        if (this.draggingCard) {
+            this.screenX = this.currentX - this.startX;
+        } else {
+            // go to start position (center)
+            this.screenX += (0 - this.screenX) / 10;
+        }
 
-        this.target.style.transform = `translateX(${screenX}px)`;
+        this.target.style.transform = `translateX(${this.screenX}px)`;
     }
 }
 
