@@ -1,5 +1,5 @@
 'use strict';
-
+// 31.17 https://www.youtube.com/watch?v=rBSY7BOYRo4
 class Cards {
     constructor () {
         this.cards = document.querySelectorAll('.card');
@@ -65,7 +65,7 @@ class Cards {
 
         this.targetX = 0; // go back to the middle
         let screenX = this.currentX - this.startX;
-        if (Math.abs(screenX) > this.targetBCR.width * 0.25) {    // if 25% percent of the width go out the border
+        if (Math.abs(screenX) > this.targetBCR.width * 0.30) {    // if 30% percent of the width go out the border
             this.targetX = (screenX > 0) ? this.targetBCR.width : -this.targetBCR.width;
         }
 
@@ -91,11 +91,54 @@ class Cards {
         this.target.style.transform = `translateX(${this.screenX}px)`;
         this.target.style.opacity = opacity;
 
-        // remove the card
         const isNearlyInvisible = (opacity < 0.01);
-        if(!this.draggingCard && isNearlyInvisible) {
-            this.target.parentNode.removeChild(this.target);
-            this.target = null;
+        const isNearlyAtStart = (Math.abs(this.screenX) < 0.01);
+
+        // user has finished dragging
+        if (!this.draggingCard) {
+            // if the card is nearly gone
+            if (isNearlyInvisible) {
+                // if there is still a target and the target is still attached to the DOM
+                if (!this.target || !this.target.parentNode)
+                    return;
+
+                let isAfterCurrentTarget = false;
+
+                const onTransitionEnd = evt => {
+                    this.target = null;
+                    evt.target.style.transition = 'none';
+                    evt.target.removeEventListener('transitionend', onTransitionEnd);
+                }
+
+                // animate cards on Y axis under the target
+                for(let i = 0; i < this.cards.length; i++) {
+                    const card = this.cards[i];
+
+                    if (card === this.target) {
+                        isAfterCurrentTarget = true;
+                        continue;
+                    }
+
+                    if (!isAfterCurrentTarget)
+                        continue;
+
+                    card.style.transform = `translateY(${this.targetBCR.height + 20}px)`; // + 20 for the margin
+                    requestAnimationFrame(_ => {
+                        card.style.transition = 'transform 0.25s cubic-bezier(0,0,0.31,1)';
+                        card.style.transform = 'none';
+                    });
+                    card.addEventListener('transitionend', onTransitionEnd);
+                };
+
+                if(this.target && this.target.parentNode)
+                    this.target.parentNode.removeChild(this.target);
+            }
+
+            if(isNearlyAtStart) {
+                this.target.style.willChange = 'initial';
+                this.target.style.transform = 'none';
+                this.target = null;
+            }
         }
     }
 }
