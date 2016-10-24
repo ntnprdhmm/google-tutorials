@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 html, body {
@@ -63,6 +64,8 @@ html, body {
     box-shadow: 2px 0 12px rgba(0,0,0,0.4);
     transform: translateX(-102%);
     transition: transform 0.3s cubic-bezier(0, 0, 0.3, 1);
+    display: flex;
+    flex-direction: column;
 }
 
 .side-nav--visible::before {
@@ -71,4 +74,42 @@ html, body {
 
 .side-nav--visible .side-nav__container {
     transform: none;
+}
+
+.side-nav__hide {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    border: none;
+    background: none;
+    color: #FFF;
+}
+
+.side-nav__header {
+    height: 200px;
+    background: #330099;
+    color: #FFF;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    font-size: 24px;
+}
+
+.side-nav__content {
+    flex: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.side-nav__content li {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 16px;
+}
+.side-nav__content li:hover {
+    background: #CCC;
 }
