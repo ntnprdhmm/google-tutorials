@@ -37,7 +37,6 @@ class SideNav {
         // if we simply click on a link, we don't wan't to move the sidenav
         if (!this.sideNavEl.classList.contains('side-nav--visible'))
             return;
-        evt.preventDefault();
         this.startX = evt.touches[0].pageX;
         this.currentX = this.startX;
     }

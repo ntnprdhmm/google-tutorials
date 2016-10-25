@@ -1,12 +1,12 @@
 * {
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 html, body {
     padding: 0;
     margin: 0;
     background: #FAFAFA;
+    font-family: Arial, sans-serif;
 }
 
 .header {
@@ -17,10 +17,10 @@ html, body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 16;
+    padding: 0 16px;
 }
 
-.header_menu-toggle {
+.header__menu-toggle {
     background: none;
     border: none;
     width: 24px;
@@ -52,6 +52,7 @@ html, body {
     height: 100%;
     background: rgba(0,0,0,0.4);
     opacity: 0;
+    will-change: opacity;
     transition: opacity 0.3s cubic-bezier(0, 0, 0.3, 1);
 }
 
@@ -65,10 +66,15 @@ html, body {
     transform: translateX(-102%);
     display: flex;
     flex-direction: column;
+    will-change: transform;
 }
 
 .side-nav--visible.side-nav--animatable .side-nav__container {
-    transition: transform 0.3s cubic-bezier(0, 0, 0.3, 1);
+  transition: transform 0.33s cubic-bezier(0, 0, 0.3, 1);
+}
+
+.side-nav--animatable .side-nav__container {
+  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);
 }
 
 .side-nav--visible::before {
